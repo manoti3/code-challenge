@@ -23,12 +23,12 @@ class TestReview:
         review_1 = Review(customer, restaurant, 2)
 
         # comment out the next two lines if using Exceptions
-        review_1.rating = 1
-        assert review_1.rating == 2
+        # review_1.rating = 1
+        # assert review_1.rating == 2
 
         # uncomment the next two lines if using Exceptions
-        # with pytest.raises(Exception):
-        #     review_1.rating = 4
+        with pytest.raises(Exception):
+            review_1.rating = 4
 
     def test_rating_is_valid_int(self):
         """rating must be of type int and between 1 and 5"""
