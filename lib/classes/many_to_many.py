@@ -1,5 +1,5 @@
 class Customer:
-    def _init_(self, first_name, last_name):
+    def __init__(self, first_name, last_name):
         self._first_name = first_name
         self._last_name = last_name
 
@@ -11,8 +11,6 @@ class Customer:
     def first_name(self, name):
         if isinstance(name, str) and 1 <= len(name) <= 25:
             self._first_name = name
-        # else:
-        #     raise Exception ("First name must be a string with 1 to 25 characters")
         
     @property
     def last_name(self):
@@ -22,8 +20,6 @@ class Customer:
     def last_name(self, name):
         if isinstance(name, str) and 1 <= len(name) <= 25:
             self._last_name = name
-        # else:
-        #     raise Exception ("Last name must be a string with 1 to 25 characters")
 
     def reviews(self):
         return [review for review in Review.all if review.customer == self]
@@ -39,10 +35,9 @@ class Customer:
         return restaurant in [review.restaurant for review in Review.all if review.customer == self] 
     
 class Restaurant:
-
     all = []
 
-    def _init_(self, name):
+    def __init__(self, name):
         self._name = name
         Restaurant.all.append(self)
 
@@ -63,27 +58,26 @@ class Restaurant:
         return list(dict.fromkeys([review.customer for review in Review.all if review.restaurant == self]))
 
     def average_star_rating(self):
-        return round(sum([review.rating for review in Review.all if review.restaurant == self]) / len([review.rating for review in Review.all if review.restaurant == self]), 1) if len([review.rating for review in Review.all if review.restaurant == self]) > 0 else 0.0
+        ratings = [review.rating for review in Review.all if review.restaurant == self]
+        return round(sum(ratings) / len(ratings), 1) if ratings else 0.0
 
     @classmethod
     def top_two_restaurants(cls):
         restaurant_with_avg_rating = {}
         for restaurant in cls.all:
-            avg_rating = round(sum([review.rating for review in Review.all if review.restaurant == restaurant]) / len([review.rating for review in Review.all if review.restaurant == restaurant]), 1) if len([review.rating for review in Review.all if review.restaurant == restaurant]) > 0 else 0.0
+            ratings = [review.rating for review in Review.all if review.restaurant == restaurant]
+            avg_rating = round(sum(ratings) / len(ratings), 1) if ratings else 0.0
             restaurant_with_avg_rating[restaurant] = avg_rating
         sorted_restaurant_with_avg_rating = dict(sorted(restaurant_with_avg_rating.items(), key=lambda item: item[1], reverse=True))
-        return list(sorted_restaurant_with_avg_rating.keys())[:2] if len(Review.all) > 0 else None
-            
+        return list(sorted_restaurant_with_avg_rating.keys())[:2] if Review.all else None
 
-    
 class Review:
-
     all = []
 
-    def _init_(self, customer, restaurant, rating):
+    def __init__(self, customer, restaurant, rating):
         self._customer = customer
         self._restaurant = restaurant
-        if isinstance (rating, int) and 1 <= rating <= 5:
+        if isinstance(rating, int) and 1 <= rating <= 5:
             self._rating = rating
         Review.all.append(self)
 

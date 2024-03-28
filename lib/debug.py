@@ -5,7 +5,7 @@ from classes.many_to_many import Customer
 from classes.many_to_many import Restaurant
 from classes.many_to_many import Review
 
-if __name__ == '__main__':
+if __name__ == '_main_':
     print("HELLO! :) let's debug :vibing_potato:")
     
     # don't remove this line, it's for debugging!
